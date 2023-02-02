@@ -1,5 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-app.js";
+import { getDatabase, ref, onValue, push  } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -15,7 +17,11 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase
-const app = initializeApp(firebaseConfig);
+const app = initializeApp(firebaseConfig)
+// initializes Realtime Database and get a reference service
+const db = getDatabase(app);
+// create reference, where in the database we want to take info from
+const noteRef = ref(db, '/');
 
 //------------------------------------------------
 
@@ -94,7 +100,7 @@ function generateNumbers(el) {
 function init() {
     document.querySelector("#pp").innerText ="Place the boats"
 
-    const leftSection = document.querySelector("#left")
+    const boardSection = document.querySelector("#board")
 
     // Create divs that holds the box
     for (let j = 1; j < 3; j++) {
@@ -117,7 +123,7 @@ function init() {
         }
 
         //Add div (with buttons) to left section
-        leftSection.appendChild(newDiv)
+        boardSection.appendChild(newDiv)
     }
 }
 //Ropar på att functionen ska starta
