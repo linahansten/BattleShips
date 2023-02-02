@@ -17,7 +17,7 @@ main {
     display: flex;
 }
 
-#left {
+#board {
     width: 1220px;
     padding: 32px;
     display: flex;
@@ -27,13 +27,13 @@ main {
     row-gap: 16px;
 }
 
-#left div {
+#board div {
     width: 320px;
     display: flex;
     flex-wrap: wrap;
 }
 
-#left div p {
+#board div p {
     width: 40px;
     height: 40px;
     text-align: center;
