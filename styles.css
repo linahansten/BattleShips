@@ -52,6 +52,14 @@ button {
     cursor: pointer;
 }
 
+.create-lobby{
+    width: 10px;
+    height: 10px;
+    background-color: black;
+}
+#pp{
+    margin-top: 10px;
+}
 
 .locked {
     background: #4A4A4A;
