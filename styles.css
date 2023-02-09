@@ -11,10 +11,60 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
+    
 }
 
 main {
     display: flex;
+}
+
+.buttons {
+    max-height: 100px;
+    display: flex;
+    justify-content: center;
+    flex-direction: row-reverse;
+    margin-top: 40px;
+    gap: 5px;
+}
+
+#makeLob {
+    color: #0006ba;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    border-radius: 17px;
+}
+
+#joinLob {
+    color: #790000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.3s;
+    border-radius: 17px;
+}
+
+#makeLob:hover {
+    background-color: #0006ba57;
+    
+}
+
+#joinLob:hover {
+    background-color: #7900004b;
+}
+
+
+.lobBtn {
+    width: 100px;
+    padding: 40px;
+    border: none;
+}
+
+.lobBtn:hover {
+    width: 100px;
+    padding: 40px;
+    border: none;
 }
 
 #board {
@@ -43,8 +93,6 @@ main {
 }
 
 button {
-    width: 40px;
-    height: 40px;
     border: 1px solid #0006ba;
     background: #fff;
     color: #0006ba;

@@ -25,6 +25,12 @@ const noteRef = ref(db, '/');
 
 //------------------------------------------------
 
+// lobby WIP
+
+
+
+
+
 let gameState = "place boats"
 
 function toggleBox(el, board) {
