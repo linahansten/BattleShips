@@ -21,10 +21,10 @@ const joinEl = document.querySelector("#confirm-join")
 let input = document.querySelector("#input")
 
 joinEl.addEventListener("click", function(){
-    if(input.value){
-        window.location.href = '/game.html?id=' + pushes.key
-    }
-    console.log("fuck my life")
+    
+        window.location.href = '/game.html?id=' + input.value
+    
+    
 })
 
 //------------------------------------------------

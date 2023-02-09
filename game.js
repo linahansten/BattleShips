@@ -1,7 +1,6 @@
 import { db } from "./firebase.js"
 import { ref, update, onValue, get } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js";
 
-
 let idLobby
 let player
 
@@ -12,8 +11,19 @@ const url = new URL (window.location.href)
 const urlID = url.searchParams.get("id")
 
 // create reference, where in the database we want to take info from
-const gameRef = ref(db, '/lobbies');
+const gameRef = ref(db, '/lobbies/' + urlID);
 
+  // Check if urlID exicts in DB, then set at idLobby
+  get(gameRef).then((snapshot) => {
+    if (snapshot.exists()) {
+      idLobby = urlID
+    } else {
+      window.location.href = "/"
+    }
+  }).catch((error) => {
+    console.error(error);
+  });
+  
 // listens for database changes
 onValue(gameRef, function (snapshot){
 
@@ -21,11 +31,10 @@ onValue(gameRef, function (snapshot){
         const childKey = childSnapshot.key
         const childData = childSnapshot.val()
     
-         // Check if urlID exicts in DB, then set at idLobby
-        let pushes = childKey
+        let pushes = urlID
 
         if(pushes){
-        idLobby = urlID
+
         console.log(pushes)
         idLobby = pushes
         player = 1
@@ -118,8 +127,7 @@ function init() {
 
             //Set id on button
             newButton.id = newDiv.id + "-" + i 
-            //Set text on button
-            //newButton.innerText = i
+
             //Set ononclick on button
             newButton.onclick = function () {
                 toggleBox(this, j)
