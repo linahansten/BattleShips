@@ -101,9 +101,7 @@ button {
 }
 
 .create-lobby{
-    width: 10px;
-    height: 10px;
-    background-color: black;
+    max-height: 100px;
 }
 #pp{
     margin-top: 10px;
