@@ -17,7 +17,7 @@ creatEL.addEventListener("click", async function(){
 
 })
 //Join lobby button
-const joinEl = document.querySelector("#confirm-join")
+const joinEl = document.querySelector("#joinLob")
 let input = document.querySelector("#input")
 
 joinEl.addEventListener("click", function(){
