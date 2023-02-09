@@ -54,7 +54,6 @@ main {
     background-color: #7900004b;
 }
 
-
 .lobBtn {
     width: 100px;
     padding: 40px;
@@ -67,47 +66,6 @@ main {
     border: none;
 }
 
-#board {
-    width: 1220px;
-    padding: 32px;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 100px;
-    row-gap: 16px;
-}
-
-#board div {
-    width: 320px;
-    display: flex;
-    flex-wrap: wrap;
-}
-
-#board div p {
-    width: 40px;
-    height: 40px;
-    text-align: center;
-    padding-top: 5px;
-    color: #0006ba;
-    font-weight: 700;
-}
-
-button {
-    border: 1px solid #0006ba;
-    background: #fff;
-    color: #0006ba;
-    font-weight: 700;
-    cursor: pointer;
-}
-
 .create-lobby{
     max-height: 100px;
-}
-#pp{
-    margin-top: 10px;
-}
-
-.locked {
-    background: #4A4A4A;
-    color: #fff;
 }
