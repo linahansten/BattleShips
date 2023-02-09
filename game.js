@@ -117,7 +117,7 @@ function init() {
     document.querySelector("#pp").innerText ="Place the boats"
     const boardSection = document.querySelector("#board")
 
-    // Create divs that holds the boxes
+    // Create divs that holds the buttons
     for (let j = 1; j < 3; j++) {
         const newDiv = document.createElement("div")
         newDiv.id = j;
