@@ -17,14 +17,14 @@ creatEL.addEventListener("click", async function(){
 
 })
 //Join lobby button
-const joinEl = document.querySelector("#confirm-join")
+const joinEl = document.querySelector("#joinLob")
 let input = document.querySelector("#input")
 
 joinEl.addEventListener("click", function(){
-    if(input.value){
-        window.location.href = '/game.html?id=' + pushes.key
-    }
-    console.log("fuck my life")
+    
+        window.location.href = '/game.html?id=' + input.value
+    
+    
 })
 
 //------------------------------------------------
