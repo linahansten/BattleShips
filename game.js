@@ -25,27 +25,27 @@ get(gameRef).then((snapshot) => {
 	} else {
 		window.location.href = "/"
 	}
-}).catch((error) => {
-	console.error(error)
+	// }).catch((error) => {
+	// 	console.error(error)
+
+	//------------------------------------------------------------------------
+	// listens for database changes
+	onValue(gameRef, function (snapshot) {
+		const data = snapshot.val()
+
+		if (data.connected !== true) {
+			// Else, set connected = true and player = 1
+			player = 1
+			update(ref(db, "lobbies/" + idLobby), { connected: true })
+
+		} else {
+			// Check if connected is true, set player = 2
+			player = 2
+		}
+
+		console.log(player)
+	})
 })
-//------------------------------------------------------------------------
-// listens for database changes
-onValue(gameRef, function (snapshot) {
-	const data = snapshot.val()
-
-	if (data.connected !== true) {
-		// Else, set connected = true and player = 1
-		player = 1
-		update(ref(db, "lobbies/" + idLobby), { connected: true })
-
-	} else {
-		// Check if connected is true, set player = 2
-		player = 2
-	}
-
-	console.log(player)
-})
-
 //-----------------------------------------------------------------------------------
 
 function toggleBox(el, board) {

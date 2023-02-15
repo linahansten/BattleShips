@@ -11,7 +11,6 @@ creatEL.addEventListener("click", async function () {
 		p1Ready: false,
 		p2Ready: false,
 		connected: false,
-
 	})
 	//Change page you are on
 	window.location.href = "/game.html?id=" + pushes.key
