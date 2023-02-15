@@ -9,20 +9,21 @@
 </head>
 
 <body>
-
-    <h2>WELCOME:</h2>
-    <p>- RUSSIAN POV</p>
-    <main>
-<section id="board">
-    <div class="buttons join">
-        <button id="makeLob" class="lobBtn create-lobby">MAKE LOBBY</button>
-        <input id="input" type="text">
-        <button id="joinLob" class="lobBtn">JOIN LOBBY</button>
+    <div class="gameIntro">
+        <h2>WELCOME TO:</h2>
+        <p id="gameName"> RUSSIAN POV; </p>
+        <p id="gameDesc">- a battleships game.</p>
     </div>
-</section>
-</main>
 
-
+    <main>
+    <section id="board">
+        <div class="buttons join">
+            <button id="makeLob" class="lobBtn create-lobby">CREATE LOBBY</button>
+            <button id="joinLob" class="lobBtn">JOIN LOBBY</button>
+            <input placeholder="ENTER LOBBY ID" id="input" type="text" class="hidden">
+        </div>
+    </section>
+    </main>
 
     <script type="module" src="createJoin.js"></script>
 </body>

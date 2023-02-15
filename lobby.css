@@ -11,33 +11,70 @@ body {
     align-items: center;
     flex-direction: column;
     font-family: Arial, Helvetica, sans-serif;
-    
+    background-color: #fffcf0;
 }
 
 main {
     display: flex;
 }
 
+h2 {
+    justify-self: start;
+}
+
+#gameName {
+    margin-top: 10px;
+}
+
+.gameIntro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#gameDesc {
+    font-size: 13px;
+    margin-left: 80px;
+}
+
+input {
+    margin-top: 35px;
+    padding: 10px;
+    max-height: 30px;
+    width: 110px;
+    font-size: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
 .buttons {
     max-height: 100px;
     display: flex;
     justify-content: center;
-    flex-direction: row-reverse;
     margin-top: 40px;
-    gap: 5px;
+    gap: 50px;
+    position: relative;
 }
 
 #makeLob {
     color: #0006ba;
+    background-color: #a8aae233;
+    border: #0300b51e solid 3px;
     display: flex;
     justify-content: center;
     align-items: center;
     transition: 0.3s;
     border-radius: 17px;
+    
 }
 
 #joinLob {
     color: #790000;
+    background-color: #e2bebe23;
+    border: #d6000018 solid 3px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -47,11 +84,14 @@ main {
 
 #makeLob:hover {
     background-color: #0006ba57;
-    
+    border: #0300b53d solid 3px;
+    cursor: pointer;
 }
 
 #joinLob:hover {
     background-color: #7900004b;
+    border: #d6000052 solid 3px;
+    cursor: pointer;
 }
 
 .lobBtn {
