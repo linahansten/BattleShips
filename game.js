@@ -98,7 +98,7 @@ function toggleBox(el, board) {
 			console.log('locked', el.id)
 
 			//Check if box of locked elements is now equal to 11
-			if (lockedElements.length === 11) {
+			if (lockedElements.length + 1 === 11) {
 				//Change text of paragraph
 				document.querySelector('#pp').innerText = 'Attack'
 				gameState = 'attack'
