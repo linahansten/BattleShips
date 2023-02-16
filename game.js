@@ -34,7 +34,6 @@ get(gameRef).then((snapshot) => {
 		// Check if connected is true, set player = 2
 		player = player2
 	}
-
 	if (data.connected !== true) {
 		// Else, set connected = true and player = 1
 		player = player1
