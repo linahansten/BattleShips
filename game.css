@@ -28,7 +28,11 @@ button {
     cursor: pointer;
 }
 
-#board {
+#board2 button {
+    border: 1px solid #c53333bf;
+}
+
+#boardContainer {
     width: 1220px;
     padding: 32px;
     display: flex;
@@ -38,18 +42,19 @@ button {
     row-gap: 16px;
 }
 
-#board div {
-    width: 320px;
+#boardContainer div {
+    width: 380px;
+    height: 360px;
     display: flex;
     flex-wrap: wrap;
 }
 
-#board div p {
+#boardContainer div p {
     width: 40px;
     height: 40px;
     text-align: center;
     padding-top: 5px;
-    color: #0006ba;
+    
     font-weight: 700;
 }
 
@@ -60,4 +65,18 @@ button {
 .locked {
     background: #4A4A4A;
     color: #fff;
+}
+
+.selected-blue {
+    background-color: #020071;
+    font-size: 20px;
+    font-style: italic;
+    color: #5054d8;
+}
+
+.selected-red {
+    background-color: #790000d3;
+    font-size: 20px;
+    font-style: italic;
+    color: #580303;
 }

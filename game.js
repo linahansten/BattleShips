@@ -27,15 +27,26 @@ get(gameRef).then((snapshot) => {
 	} else {
 		window.location.href = "/"
 	}
-	if (data.connected == true) {
-		// Check if connected is true, set player = 2
-		player = player2
-	}
-	if (data.connected !== true) {
-		// Else, set connected = true and player = 1
-		player = player1
-		update(ref(db, "lobbies/" + idLobby), { connected: true })
-	}
+	// }).catch((error) => {
+	// 	console.error(error)
+
+	//------------------------------------------------------------------------
+	// listens for database changes
+	onValue(gameRef, function (snapshot) {
+		const data = snapshot.val()
+
+		if (data.connected !== true) {
+			// Else, set connected = true and player = 1
+			player = 1
+			update(ref(db, "lobbies/" + idLobby), { connected: true })
+
+		} else {
+			// Check if connected is true, set player = 2
+			player = 2
+		}
+
+		console.log(player)
+	})
 })
 
 //------------------------------------------------------------------------
@@ -48,7 +59,20 @@ onValue(gameRef, function (snapshot) {
 			player = 1
 			//Gives it and ID and puts the Id code into innertext
 			const idLobbyEl = document.getElementById("lobbyId")
-			idLobbyEl.innerText = "Lobby ID:" + " " + urlID
+			idLobbyEl.innerText = "Lobby ID:" + " " + pushes
+
+		}
+
+
+		let CheckCon = get(ref(db, "lobbies/"))
+
+		if (CheckCon.val) {
+			// Check if connected is true, set player = 2
+			player = 2
+		} else {
+			// Else, set connected = true and player = 1
+			player = 1
+			update(ref(db, "lobbies/" + idLobby), { connected: true })
 		}
 	})
 })
@@ -205,29 +229,137 @@ hit()
 
 //function that creates all the buttons and divs
 function init() {
-	document.querySelector("#pp").innerText = "Click to place the boats"
-	const boardSection = document.querySelector("#board")
+	document.querySelector("#pp").innerText = "Place the boats"
+	const boardSection = document.querySelector("#boardContainer")
 
 	// Create divs that holds the boxes
 	for (let j = 1; j < 3; j++) {
 		const newDiv = document.createElement("div")
-		newDiv.id = j
+		newDiv.id = "board" + j
+
 		//Create buttons inside every div
-		for (let i = 1; i < 65; i++) {
+		for (let i = 1; i < 82; i++) {
 			const newButton = document.createElement("button")
 
 			//Set id on button
 			newButton.id = newDiv.id + "-" + i
+
+			if (newButton.id == "board1-1") {
+				newButton.innerText = "A"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-10") {
+				newButton.innerText = "B"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-19") {
+				newButton.innerText = "C"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-28") {
+				newButton.innerText = "D"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-37") {
+				newButton.innerText = "E"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-46") {
+				newButton.innerText = "F"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-55") {
+				newButton.innerText = "G"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-64") {
+				newButton.innerText = "H"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-73") {
+				newButton.classList.add("null")
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-74") {
+				newButton.innerText = "1"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-75") {
+				newButton.innerText = "2"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-76") {
+				newButton.innerText = "3"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-77") {
+				newButton.innerText = "4"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-78") {
+				newButton.innerText = "5"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-79") {
+				newButton.innerText = "6"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-80") {
+				newButton.innerText = "7"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board1-81") {
+				newButton.innerText = "8"
+				newButton.classList.add("selected-blue")
+			} else if (newButton.id == "board2-1") {
+				newButton.innerText = "A"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-10") {
+				newButton.innerText = "B"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-19") {
+				newButton.innerText = "C"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-28") {
+				newButton.innerText = "D"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-37") {
+				newButton.innerText = "E"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-46") {
+				newButton.innerText = "F"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-55") {
+				newButton.innerText = "G"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-64") {
+				newButton.innerText = "H"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-73") {
+				newButton.classList.add("null")
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-74") {
+				newButton.innerText = "1"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-75") {
+				newButton.innerText = "2"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-76") {
+				newButton.innerText = "3"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-77") {
+				newButton.innerText = "4"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-78") {
+				newButton.innerText = "5"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-79") {
+				newButton.innerText = "6"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-80") {
+				newButton.innerText = "7"
+				newButton.classList.add("selected-red")
+			} else if (newButton.id == "board2-81") {
+				newButton.innerText = "8"
+				newButton.classList.add("selected-red")
+			}
+
 			//Set ononclick on button
 			newButton.onclick = function () {
 				toggleBox(this, j)
 			}
 			//Add button inside div
 			newDiv.appendChild(newButton)
-		}
 
-		//Add div (with buttons) to left section
-		boardSection.appendChild(newDiv)
+
+
+			//Add div (with buttons) to left section
+			boardSection.appendChild(newDiv)
+		}
 	}
 }
 //Ropar på att functionen ska starta
