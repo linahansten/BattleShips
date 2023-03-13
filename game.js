@@ -20,8 +20,6 @@ const gameRef = ref(db, "/lobbies/" + urlID)
 
 // Check if urlID exicts in DB, then set at idLobby
 get(gameRef).then((snapshot) => {
-	const data = snapshot.val()
-
 	if (snapshot.exists()) {
 		idLobby = urlID
 	} else {
@@ -59,7 +57,7 @@ onValue(gameRef, function (snapshot) {
 			player = 1
 			//Gives it and ID and puts the Id code into innertext
 			const idLobbyEl = document.getElementById("lobbyId")
-			idLobbyEl.innerText = "Lobby ID:" + " " + pushes
+			idLobbyEl.innerText = "Lobby ID:" + " " + urlID
 
 		}
 
