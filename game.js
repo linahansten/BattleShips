@@ -361,6 +361,11 @@ function init() {
 		}
 	}
 }
+//Add div (with buttons) to left section
+boardSection.appendChild(newDiv)
+		}
+	}
+}
 //Ropar på att functionen ska starta
 init()
 
