@@ -25,11 +25,14 @@ const joinInput = document.querySelector(".hidden")
 
 joinEl.addEventListener("click", function () {
 	joinInput.classList.remove("hidden")
-	if (input.value) {
-		window.location.href = "/game.html?id=" + input.value
+})
+input.addEventListener("keypress", function (e) {
+	if (e.key === "Enter") {
+		if (input.value) {
+			window.location.href = "/game.html?id=" + input.value
+			input.value = ""
+		}
 	}
-
-
 })
 
 //------------------------------------------------

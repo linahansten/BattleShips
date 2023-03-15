@@ -54,7 +54,6 @@ onValue(gameRef, function (snapshot) {
 	snapshot.forEach(() => {
 		//if theres and existing url id them ill put it in the paragraph
 		if (urlID) {
-			player = 1
 			//Gives it and ID and puts the Id code into innertext
 			const idLobbyEl = document.getElementById("lobbyId")
 			idLobbyEl.innerText = "Lobby ID:" + " " + urlID
@@ -182,7 +181,7 @@ function toggleBox(el, board) {
 		})
 	}
 }
-
+//----------------------------------------------------------------------
 // Function to switch turns
 function switchTurns() {
 
@@ -191,33 +190,32 @@ function switchTurns() {
 	} else {
 		player = player1
 	}
-	console.log(player)
 }
-
-
 switchTurns()
-const buttonsClick = document.querySelectorAll("button")
-const actionsText = document.getElementById("actions")
+
+const buttonsClick = document.querySelector("button")
+
 function hit(board) {
 	if (player === player1) {
-		if (board != 2) return
-		if (gameState == "attack") {
-			if (buttonsClick.classList.contains(".locked")) {
+		if (board !== 2) return
+		if (gameState === "attack") {
+			if (buttonsClick.classList.contains("locked")) {
 				buttonsClick.classList.add("boom")
-				actionsText.innerText = "You hit the a boat"
+				document.querySelector("#pp").innerText = "You hit a boat"
 			} else {
-				actionsText.innerText = "You missed"
+				document.querySelector("#pp").innerText = "You missed"
 			}
+
 		}
-	}
+	} console.log("hej")
 	if (player === player2) {
 		if (board != 1) return
 		if (gameState == "attack") {
 			if (!buttonsClick.classList.contains("locked")) {
-				actionsText.innerText = "You missed"
+				document.querySelector("#p").innerText = "You missed"
 			} else {
 				buttonsClick.classList.add("boom")
-				actionsText.innerText = "You hit the a boat"
+				document.querySelector("#p").innerText = "You hit a boat"
 			}
 		}
 	}
@@ -348,7 +346,10 @@ function init() {
 
 			//Set ononclick on button
 			newButton.onclick = function () {
-				toggleBox(this, j)
+				if (newButton.classList == "selected-red" || newButton.classList == "selected-blue") {
+					console.log("you cant place a boat there")
+				} else { toggleBox(this, j) }
+
 			}
 			//Add button inside div
 			newDiv.appendChild(newButton)
