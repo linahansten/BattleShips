@@ -13,6 +13,10 @@ creatEL.addEventListener("click", async function () {
 		p2Ready: false,
 		connected: false,
 		gameOver: false,
+		gameState: "place boats",
+		p1Boats: [],
+		p2Boats: [],
+
 	})
 	//Change page you are on
 	window.location.href = "/game.html?id=" + pushes.key

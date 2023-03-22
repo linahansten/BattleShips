@@ -1,10 +1,14 @@
 import { db } from "./firebase.js"
 import { ref, update, onValue, get } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-database.js"
 
+let p1Boats = []
+let p2Boats = []
 let idLobby
-let player
+let player = 0
 let player1 = "1"
 let player2 = "2"
+let p1Attacks = []
+let p2Attacks = []
 // let gameOver = false
 // let playerTurn
 let gameState = "place boats"
@@ -20,6 +24,7 @@ const gameRef = ref(db, "/lobbies/" + urlID)
 
 // Check if urlID exicts in DB, then set at idLobby
 get(gameRef).then((snapshot) => {
+
 	if (snapshot.exists()) {
 		idLobby = urlID
 	} else {
@@ -31,27 +36,6 @@ get(gameRef).then((snapshot) => {
 	//------------------------------------------------------------------------
 	// listens for database changes
 	onValue(gameRef, function (snapshot) {
-		const data = snapshot.val()
-
-		if (data.connected !== true) {
-			// Else, set connected = true and player = 1
-			player = 1
-			update(ref(db, "lobbies/" + idLobby), { connected: true })
-
-		} else {
-			// Check if connected is true, set player = 2
-			player = 2
-		}
-
-		console.log(player)
-	})
-})
-
-//------------------------------------------------------------------------
-
-// listens for database changes
-onValue(gameRef, function (snapshot) {
-	snapshot.forEach(() => {
 		//if theres and existing url id them ill put it in the paragraph
 		if (urlID) {
 			//Gives it and ID and puts the Id code into innertext
@@ -59,20 +43,61 @@ onValue(gameRef, function (snapshot) {
 			idLobbyEl.innerText = "Lobby ID:" + " " + urlID
 
 		}
+		const data = snapshot.val()
+		p1Boats = data.p1Boats || []
+		p2Boats = data.p2Boats || []
 
-
-		let CheckCon = get(ref(db, "lobbies/"))
-
-		if (CheckCon.val) {
-			// Check if connected is true, set player = 2
-			player = 2
-		} else {
-			// Else, set connected = true and player = 1
-			player = 1
-			update(ref(db, "lobbies/" + idLobby), { connected: true })
+		p1Attacks = data.p1Attacks || []
+		p2Attacks = data.p2Attacks || []
+		p1Attacks.forEach(element => {
+			if (p2Boats.indexOf(element) >= 0) {
+				document.querySelector("#" + element).classList.add("Hit")
+			} else {
+				document.querySelector("#" + element).classList.add("Boom")
+			}
+		})
+		p2Attacks.forEach(element => {
+			document.querySelector("#" + element).classList.add("Boom")
+		})
+		gameState = data.gameState || "place boats"
+		if (p1Boats.length == 2 && p2Boats.length == 2 && gameState == "place boats") {
+			update(ref(db, "lobbies/" + idLobby), { gameState: "attack 1" })
 		}
+		console.log(data, gameState)
+		if (player == 0) {
+			if (data.connected !== true) {
+				// Else, set connected = true and player = 1
+				player = 1
+				update(ref(db, "lobbies/" + idLobby), { connected: true })
+			} else {
+				// Check if connected is true, set player = 2
+				player = 2
+			}
+		}
+		console.log(player)
+
 	})
 })
+
+//------------------------------------------------------------------------
+
+// listens for database changes
+// onValue(gameRef, function (snapshot) {
+// 	snapshot.forEach(() => {
+// 		
+// 		let CheckCon = get(ref(db, "lobbies/"))
+
+// 		if (CheckCon.val) {
+// 			// Check if connected is true, set player = 2
+// 			player = 2
+// 		} else {
+// 			// Else, set connected = true and player = 1
+// 			player = 1
+// 			update(ref(db, "lobbies/" + idLobby), { connected: true })
+// 		}
+// 		hit()
+// 	})
+// })
 
 //-----------------------------------------------------------------
 
@@ -92,10 +117,12 @@ function toggleBox(el, board) {
 				//Get parent element (div) of el (button) and get all elements
 				const lockedElements = el.parentElement.querySelectorAll(".locked")
 				//Check if locked elements is less than 11
-				if (lockedElements.length < 2)
+				if (p1Boats.length < 2) {
+					p1Boats.push(el.id)
+					update(ref(db, "lobbies/" + idLobby), { p1Boats })
 					//If not, lock box by adding class to element
 					el.classList.add("locked")
-				console.log("locked", el.id)
+				}
 
 				//Check if box of locked elements is now equal to 11
 				if (lockedElements.length + 1 === 2) {
@@ -120,12 +147,16 @@ function toggleBox(el, board) {
 				//Get parent element (div) of el (button) and get all elements
 				const lockedElements = el.parentElement.querySelectorAll(".locked")
 				//Check if locked elements is less than 11
-				if (lockedElements.length < 2) {
+				console.log(lockedElements.length)
+				if (p2Boats.length < 2) {
+					p2Boats.push(el.id)
+					update(ref(db, "lobbies/" + idLobby), { p2Boats })
 					//If not, lock box by adding class to element
 					el.classList.add("locked")
 				}
 				//Check if box of locked elements is now equal to 11
 				if (lockedElements.length + 1 === 2) {
+					//puts locked number in database
 					//Change text of paragraph
 					document.querySelector("#pp").innerText = "Attack"
 					gameState = "attack"
@@ -136,91 +167,121 @@ function toggleBox(el, board) {
 				}
 			}
 		}
+		console.log("locked", el.id)
 	}
 
 	//------------------------------------------------------------------------
 
 	//If gamestate isnt "place boats" run this
-	if (gameState == "attack") {
-		get(gameRef).then((snapshot) => {
-			const data = snapshot.val()
+	if (gameState == "attack 1" && player == player1) {
+		p1Attacks.push(el.id)
+		update(ref(db, "lobbies/" + idLobby), { p1Attacks, gameState: "attack 2" })
 
-			if (data.p1Ready == true && data.p2Ready == true) {
-				console.log("attack...")
-				if (player == player1) {
-					console.log("player 1...")
-					if (board != 2) return
 
-					//Check if box is already "locked"
-					if (el.classList !== "locked") {
-						//Get parent element (div) of el (button) and get all elements
-						const lockedElements = el.parentElement.querySelectorAll(".locked")
-						//You can press once on the other board
-						if (lockedElements.length < 1) {
-							//If not, lock box by adding class to element
-							el.classList.add("locked")
-						}
-					}
-				}
-				if (player == player2) {
-					console.log("player 2...")
-					if (board != 1) return
 
-					//Check if box is already "locked"
-					if (el.classList !== "locked") {
-						//Get parent element (div) of el (button) and get all elements
-						const lockedElements = el.parentElement.querySelectorAll(".locked")
-						//You can press once on the other board
-						if (lockedElements.length < 1) {
-							//If not, lock box by adding class to element
-							el.classList.add("locked")
-						}
-					}
-				}
-			}
-		})
+
+
+
+
+
+
+		// get(gameRef).then((snapshot) => {
+		// const data = snapshot.val()
+
+		// if (data.p1Ready == true && data.p2Ready == true) {
+		// 	console.log("attack...")
+		// 	if (player == player1) {
+		// 		console.log("player 1...")
+		// 		if (board != 2) return
+
+		// 		//Check if box is already "locked"
+		// 		if (el.classList !== "locked") {
+		// 			//Get parent element (div) of el (button) and get all elements
+		// 			const lockedElements = el.parentElement.querySelectorAll(".locked")
+		// 			//You can press once on the other board
+		// 			if (lockedElements.length < 100) {
+		// 				//If not, lock box by adding class to element
+		// 				el.classList.add("locked")
+		// 			}
+		// 		}
+		// 	}
+		// 	if (player == player2) {
+		// 		console.log("player 2...")
+		// 		if (board != 1) return
+
+		// 		//Check if box is already "locked"
+		// 		if (el.classList !== "locked") {
+		// 			//Get parent element (div) of el (button) and get all elements
+		// 			const lockedElements = el.parentElement.querySelectorAll(".locked")
+		// 			//You can press once on the other board
+		// 			if (lockedElements.length < 1) {
+		// 				//If not, lock box by adding class to element
+		// 				el.classList.add("locked")
+		// 			}
+		// 		}
+		// 	}
+		// }
+		// })
+	}
+	if (gameState == "attack 2" && player == player2) {
+		p2Attacks.push(el.id)
+		update(ref(db, "lobbies/" + idLobby), { p2Attacks, gameState: "attack 1" })
 	}
 }
 //----------------------------------------------------------------------
 // Function to switch turns
-function switchTurns() {
+// function switchTurns() {
 
-	if (player === player1) {
-		player = player2
-	} else {
-		player = player1
-	}
-}
-switchTurns()
+// 	if (player === player1) {
+// 		player = player2
+// 	} else {
+// 		player = player1
+// 	}
+// }
+// switchTurns()
 
-const buttonsClick = document.querySelector("button")
 
-function hit(board) {
-	if (player === player1) {
-		if (board !== 2) return
-		if (gameState === "attack") {
-			if (buttonsClick.classList.contains("locked")) {
-				buttonsClick.classList.add("boom")
-				document.querySelector("#pp").innerText = "You hit a boat"
-			} else {
-				document.querySelector("#pp").innerText = "You missed"
-			}
 
-		}
-	} console.log("hej")
-	if (player === player2) {
-		if (board != 1) return
-		if (gameState == "attack") {
-			if (!buttonsClick.classList.contains("locked")) {
-				document.querySelector("#p").innerText = "You missed"
-			} else {
-				buttonsClick.classList.add("boom")
-				document.querySelector("#p").innerText = "You hit a boat"
-			}
-		}
-	}
-}
-hit()
+// function hit() {
+
+// const buttonsClick = document.querySelectorAll("button")
+// buttonsClick.forEach(button => {
+// 	button.addEventListener("click", function (e) {
+// 		console.log(e.target)
+// 		// Get the ID of the button
+// 		const buttonId = button.id
+// 		console.log("button" + button.id)
+// 		// Write the data to Firebase
+// 		update(ref(db, "lobbies/" + idLobby), { button_id: buttonId })
+
+// 		if (button.classList.contains("locked")) {
+// 			button.classList.add("boom")
+// 			document.querySelector("#pp").innerText = "You hit a boat"
+// 		} else {
+// 			document.querySelector("#pp").innerText = "You missed"
+// 		}
+
+// 	})
+// })
+// if (gameState === "attack") {
+
+// }
+// }
+
+// if (player == player2) {
+
+// 		if (!buttonsClick.classList.contains("locked")) {
+// 			document.querySelector("#pp").innerText = "You missed"
+// 		} else {
+// 			buttonsClick.classList.add("boom")
+// 			document.querySelector("#pp").innerText = "You hit a boat"
+// 		}
+// 	}
+// } else {
+// 	console.log("wrong p2")
+// }
+
+
 //------------------------------------------------------------------------
 
 //function that creates all the buttons and divs

@@ -80,3 +80,9 @@ button {
     font-style: italic;
     color: #580303;
 }
+.Boom{
+    background-color: #0006ba;
+}
+.Hit{
+    background-color: red;
+}
