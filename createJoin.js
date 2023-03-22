@@ -3,7 +3,7 @@ import { ref, push } from "https://www.gstatic.com/firebasejs/9.12.1/firebase-da
 
 
 //create lobby button
-const creatEL = document.querySelector('.create-lobby')
+const creatEL = document.querySelector(".create-lobby")
 
 //Adds eventListiner to see if the button is pressed
 creatEL.addEventListener("click", async function () {
@@ -12,23 +12,27 @@ creatEL.addEventListener("click", async function () {
 		p1Ready: false,
 		p2Ready: false,
 		connected: false,
+		gameOver: false,
 	})
 	//Change page you are on
 	window.location.href = "/game.html?id=" + pushes.key
 })
 
 //Join lobby button
-const joinEl = document.querySelector('#joinLob')
-let input = document.querySelector('#input')
-const joinInput = document.querySelector('.hidden')
+const joinEl = document.querySelector("#joinLob")
+let input = document.querySelector("#input")
+const joinInput = document.querySelector(".hidden")
 
-joinEl.addEventListener('click', function(){
-	joinInput.classList.remove('hidden')
-	if(input.value){
-		window.location.href = '/game.html?id=' + input.value
+joinEl.addEventListener("click", function () {
+	joinInput.classList.remove("hidden")
+})
+input.addEventListener("keypress", function (e) {
+	if (e.key === "Enter") {
+		if (input.value) {
+			window.location.href = "/game.html?id=" + input.value
+			input.value = ""
+		}
 	}
-    
-     
 })
 
 //------------------------------------------------
