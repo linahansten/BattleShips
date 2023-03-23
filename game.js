@@ -9,8 +9,7 @@ let player1 = "1"
 let player2 = "2"
 let p1Attacks = []
 let p2Attacks = []
-// let gameOver = false
-// let playerTurn
+
 let gameState = "place boats"
 
 // Get game id from URL
@@ -30,9 +29,6 @@ get(gameRef).then((snapshot) => {
 	} else {
 		window.location.href = "/"
 	}
-	// }).catch((error) => {
-	// 	console.error(error)
-
 	//------------------------------------------------------------------------
 	// listens for database changes
 	onValue(gameRef, function (snapshot) {
@@ -41,8 +37,8 @@ get(gameRef).then((snapshot) => {
 			//Gives it and ID and puts the Id code into innertext
 			const idLobbyEl = document.getElementById("lobbyId")
 			idLobbyEl.innerText = "Lobby ID:" + " " + urlID
-
 		}
+
 		const data = snapshot.val()
 		p1Boats = data.p1Boats || []
 		p2Boats = data.p2Boats || []
@@ -176,112 +172,12 @@ function toggleBox(el, board) {
 	if (gameState == "attack 1" && player == player1) {
 		p1Attacks.push(el.id)
 		update(ref(db, "lobbies/" + idLobby), { p1Attacks, gameState: "attack 2" })
-
-
-
-
-
-
-
-
-
-		// get(gameRef).then((snapshot) => {
-		// const data = snapshot.val()
-
-		// if (data.p1Ready == true && data.p2Ready == true) {
-		// 	console.log("attack...")
-		// 	if (player == player1) {
-		// 		console.log("player 1...")
-		// 		if (board != 2) return
-
-		// 		//Check if box is already "locked"
-		// 		if (el.classList !== "locked") {
-		// 			//Get parent element (div) of el (button) and get all elements
-		// 			const lockedElements = el.parentElement.querySelectorAll(".locked")
-		// 			//You can press once on the other board
-		// 			if (lockedElements.length < 100) {
-		// 				//If not, lock box by adding class to element
-		// 				el.classList.add("locked")
-		// 			}
-		// 		}
-		// 	}
-		// 	if (player == player2) {
-		// 		console.log("player 2...")
-		// 		if (board != 1) return
-
-		// 		//Check if box is already "locked"
-		// 		if (el.classList !== "locked") {
-		// 			//Get parent element (div) of el (button) and get all elements
-		// 			const lockedElements = el.parentElement.querySelectorAll(".locked")
-		// 			//You can press once on the other board
-		// 			if (lockedElements.length < 1) {
-		// 				//If not, lock box by adding class to element
-		// 				el.classList.add("locked")
-		// 			}
-		// 		}
-		// 	}
-		// }
-		// })
 	}
 	if (gameState == "attack 2" && player == player2) {
 		p2Attacks.push(el.id)
 		update(ref(db, "lobbies/" + idLobby), { p2Attacks, gameState: "attack 1" })
 	}
 }
-//----------------------------------------------------------------------
-// Function to switch turns
-// function switchTurns() {
-
-// 	if (player === player1) {
-// 		player = player2
-// 	} else {
-// 		player = player1
-// 	}
-// }
-// switchTurns()
-
-
-
-// function hit() {
-
-// const buttonsClick = document.querySelectorAll("button")
-// buttonsClick.forEach(button => {
-// 	button.addEventListener("click", function (e) {
-// 		console.log(e.target)
-// 		// Get the ID of the button
-// 		const buttonId = button.id
-// 		console.log("button" + button.id)
-// 		// Write the data to Firebase
-// 		update(ref(db, "lobbies/" + idLobby), { button_id: buttonId })
-
-// 		if (button.classList.contains("locked")) {
-// 			button.classList.add("boom")
-// 			document.querySelector("#pp").innerText = "You hit a boat"
-// 		} else {
-// 			document.querySelector("#pp").innerText = "You missed"
-// 		}
-
-// 	})
-// })
-// if (gameState === "attack") {
-
-// }
-// }
-
-// if (player == player2) {
-
-// 		if (!buttonsClick.classList.contains("locked")) {
-// 			document.querySelector("#pp").innerText = "You missed"
-// 		} else {
-// 			buttonsClick.classList.add("boom")
-// 			document.querySelector("#pp").innerText = "You hit a boat"
-// 		}
-// 	}
-// } else {
-// 	console.log("wrong p2")
-// }
-
-
 //------------------------------------------------------------------------
 
 //function that creates all the buttons and divs
@@ -297,7 +193,6 @@ function init() {
 		//Create buttons inside every div
 		for (let i = 1; i < 82; i++) {
 			const newButton = document.createElement("button")
-
 			//Set id on button
 			newButton.id = newDiv.id + "-" + i
 
@@ -404,19 +299,14 @@ function init() {
 				newButton.innerText = "8"
 				newButton.classList.add("selected-red")
 			}
-
 			//Set ononclick on button
 			newButton.onclick = function () {
 				if (newButton.classList == "selected-red" || newButton.classList == "selected-blue") {
 					console.log("you cant place a boat there")
 				} else { toggleBox(this, j) }
-
 			}
 			//Add button inside div
 			newDiv.appendChild(newButton)
-
-
-
 			//Add div (with buttons) to left section
 			boardSection.appendChild(newDiv)
 		}
